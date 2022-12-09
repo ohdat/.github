@@ -1,16 +1,18 @@
 name: Golnag CI
-env:
-  TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1${{ github.run_number }}
-  LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
 on:
   workflow_call:
     outputs:
       image:
         description: 'The image of docker build tag'
-        value: ${{ env.TAG }}
+        value: ${{ jobs.buildAndPush.outputs.image }}
 jobs:
   buildAndPush:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1${{ github.run_number }}
+      LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+    outputs:
+      image: ${{ env.TAG }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Go

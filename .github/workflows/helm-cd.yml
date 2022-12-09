@@ -2,11 +2,14 @@ name: Helm CD
 on:
   workflow_call:
     inputs:
-      namespace:
+      commond:
         required: true
         type: string
-deploy:
-    needs: buildAndPush
+    secrets:
+      kubename:
+        required: true
+jobs:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,16 +19,15 @@ deploy:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+      - name: update kubeconfig
+        run:   aws eks update-kubeconfig --region us-east-1 --name ${{ secrets.kubename }}
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
           version: v3.10.0
+      - name: update helm repo
+        run: |
+          helm repo add ohdat https://ohdat.github.io/helm-charts/
+          helm repo update
       - name: helm deploy
-        uses: ohdat/helm-eks-action@master
-        with:
-          command: |
-            aws eks update-kubeconfig --region us-east-1 --name ohdat-dev
-            helm repo add ohdat https://ohdat.github.io/helm-charts/
-            helm repo update
-            helm upgrade -i dev-${{ env.APP_NAME }} ohdat/service -n dev-xxjio-com --wait --set "image.repository=${{ env.TAG }}","resources=null" --set "gateway.hosts[0]=${{ env.APP_NAME }}.dev.xxjio.com" --set "commandOverride[0]=/bin/sh","commandOverride[1]=-c","commandOverride[2]=/dist/main serve"
-            helm upgrade -i dev-grpc-${{ env.APP_NAME }} ohdat/grpc -n dev-xxjio-com --wait --set "image.repository=${{ env.TAG }}","resources=null" --set "gateway.hosts[0]=${{ env.APP_NAME }}.grpc.xxjio.com" --set "commandOverride[0]=/bin/sh","commandOverride[1]=-c","commandOverride[2]=/dist/main grpc"
+        run:  helm upgrade -i ${{ inputs.commond }} 

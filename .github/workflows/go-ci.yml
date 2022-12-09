@@ -5,8 +5,8 @@ env:
 on:
   workflow_call:
     outputs:
-      tag:
-        description: 'The tag of the image'
+      image:
+        description: 'The image of docker build tag'
         value: ${{ env.TAG }}
 jobs:
   buildAndPush:

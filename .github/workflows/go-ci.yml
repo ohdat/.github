@@ -1,6 +1,15 @@
 name: Golnag CI
 on:
   workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+      GIT_USER:
+        required: true
+      GIT_TOKEN:
+        required: true
     outputs:
       image:
         description: 'The image of docker build tag'
@@ -9,7 +18,7 @@ jobs:
   buildAndPush:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1${{ github.run_number }}
+      TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1.${{ github.run_number }}
       LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
     outputs:
       image: ${{ env.TAG }}

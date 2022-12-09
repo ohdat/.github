@@ -2,7 +2,7 @@ name: Golnag CI
 on:
   workflow_call:
     inputs:
-      DOCKERHUB_USERNAME:
+      dockerhub_username:
         required: true
         type: string
     secrets:
@@ -20,8 +20,8 @@ jobs:
   buildAndPush:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1.${{ github.run_number }}
-      LATEST_TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+      TAG: ${{ inputs.dockerhub_username }}/${{ github.event.repository.name }}:1.1.${{ github.run_number }}
+      LATEST_TAG: ${{ inputs.dockerhub_username }}/${{ github.event.repository.name }}:latest
     outputs:
       image: ${{ env.TAG }}
     steps:

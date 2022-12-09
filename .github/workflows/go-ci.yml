@@ -17,7 +17,7 @@ on:
     outputs:
       image:
         description: 'The image of docker build tag'
-        value: ${{ jobs.buildAndPush.outputs.image }}
+        value: ${{ jobs.buildAndPush.outputs.deployment_key_for_api_encrypted }}
 jobs:
   buildAndPush:
     runs-on: ubuntu-latest
@@ -25,7 +25,8 @@ jobs:
       TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.version }}
       LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
     outputs:
-      image: ${{ env.TAG }}
+      deployment_key_for_api_encrypted: ${{ steps.set_outputs.outputs.deployment_key_for_api_encrypted }}
+      deployment_key_for_client_encrypted: ${{ steps.set_outputs.outputs.deployment_key_for_client_encrypted }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Go
@@ -73,3 +74,19 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.TAG }},${{ env.LATEST_TAG }}
+
+      - name: Set outputs
+        id: set_outputs
+        shell: bash
+        run: |
+          deployment_key_for_api="Method of obtaining this has been removed for simplicity..."
+          echo "::add-mask::$deployment_key_for_api"
+          deployment_key_for_api_encrypted=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$deployment_key_for_api") | base64 -w0)
+          echo "::set-output name=deployment_key_for_api_encrypted::$deployment_key_for_api_encrypted"
+
+          deployment_key_for_client="Method of obtaining this has been removed for simplicity..."
+          echo "::add-mask::$deployment_key_for_client"
+          deployment_key_for_client_encrypted=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$deployment_key_for_client") | base64 -w0)
+          echo "::set-output name=deployment_key_for_client_encrypted::$deployment_key_for_client_encrypted"
+        env:
+          SECRET: ${{ secrets.DOCKERHUB_USERNAME }}

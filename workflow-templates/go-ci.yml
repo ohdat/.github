@@ -1,10 +1,7 @@
 name: Golnag CI
 env:
-  APP_NAME: ${{ github.event.repository.name }}
-  DOCKER_TAG: dev.1.1${{ github.run_number }}
   TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1${{ github.run_number }}
   LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
-  REPO: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
 jobs:
   buildAndPush:
     runs-on: ubuntu-latest

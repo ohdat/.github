@@ -1,6 +1,9 @@
 name: Golnag CI
 on:
   workflow_call:
+    inputs:
+      tags:
+        type: string
     secrets:
       DOCKERHUB_USERNAME:
         required: true

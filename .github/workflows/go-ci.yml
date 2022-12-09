@@ -2,8 +2,9 @@ name: Golnag CI
 on:
   workflow_call:
     inputs:
-      tags:
+      version:
         type: string
+        required: true
     secrets:
       DOCKERHUB_USERNAME:
         required: true
@@ -21,7 +22,7 @@ jobs:
   buildAndPush:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1.${{ github.run_number }}
+      TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.version }}
       LATEST_TAG: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
     outputs:
       image: ${{ env.TAG }}

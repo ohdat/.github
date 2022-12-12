@@ -46,3 +46,4 @@ jobs:
           helm repo update
       - name: helm deploy
         run: echo "namespace.${{ inputs.namespace }} kubename.${{ inputs.kubename }} environment.${{ inputs.environment }} ${{ inputs.kubename }}  ${{ inputs.helm }}  ${{ inputs.set }}"
+        # run:  helm upgrade -i -n ${{ inputs.namspace }}  ${{ inputs.helm }} --wait --set ${{ github.set }}

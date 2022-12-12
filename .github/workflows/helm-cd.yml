@@ -14,6 +14,9 @@ on:
       kubename:
         required: true
         type: string
+      environment:
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -22,6 +25,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v2
       - name: AWS Credentials

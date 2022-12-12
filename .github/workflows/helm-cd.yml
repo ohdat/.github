@@ -2,11 +2,22 @@ name: Helm CD
 on:
   workflow_call:
     inputs:
-      commond:
+      title:
+        required: true
+        type: string
+      set:
+        required: true
+        type: string
+      namspace:
+        required: true
+        type: string
+      kubename:
         required: true
         type: string
     secrets:
-      kubename:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
         required: true
 jobs:
   deploy:
@@ -20,7 +31,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: update kubeconfig
-        run:   aws eks update-kubeconfig --region us-east-1 --name ${{ secrets.kubename }}
+        run:   aws eks update-kubeconfig --region us-east-1 --name ${{ inputs.kubename }}
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
@@ -30,4 +41,4 @@ jobs:
           helm repo add ohdat https://ohdat.github.io/helm-charts/
           helm repo update
       - name: helm deploy
-        run:  helm upgrade -i ${{ inputs.commond }} 
+        run:  helm upgrade -i -n ${{ inputs.namspace }} ohdat/${{ inputs.title }} --wait --set ${{ github.set }}

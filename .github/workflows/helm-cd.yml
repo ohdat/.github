@@ -2,13 +2,13 @@ name: Helm CD
 on:
   workflow_call:
     inputs:
-      title:
+      helm:
         required: true
         type: string
       set:
         required: true
         type: string
-      namspace:
+      namespace:
         required: true
         type: string
       kubename:
@@ -41,4 +41,5 @@ jobs:
           helm repo add ohdat https://ohdat.github.io/helm-charts/
           helm repo update
       - name: helm deploy
-        run:  helm upgrade -i -n ${{ inputs.namspace }} ohdat/${{ inputs.title }} --wait --set ${{ github.set }}
+        run: echo "${{ inputs.helm }} ${{ inputs.namspace }} ${{ inputs.set }}"
+        # run:  helm upgrade -i -n ${{ inputs.namspace }}  ${{ inputs.helm }} --wait --set ${{ github.set }}

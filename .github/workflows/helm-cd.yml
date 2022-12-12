@@ -25,7 +25,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ matrix.target }}
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/checkout@v2
       - name: AWS Credentials
@@ -45,5 +45,5 @@ jobs:
           helm repo add ohdat https://ohdat.github.io/helm-charts/
           helm repo update
       - name: helm deploy
-        run: echo "${{ inputs.helm }} ${{ inputs.namspace }} ${{ inputs.set }}"
+        run: echo "namspace.${{ inputs.namspace }} kubename.${{ inputs.kubename }} environment.${{ inputs.environment }} ${{ inputs.kubename }}  ${{ inputs.helm }}  ${{ inputs.set }}"
         # run:  helm upgrade -i -n ${{ inputs.namspace }}  ${{ inputs.helm }} --wait --set ${{ github.set }}

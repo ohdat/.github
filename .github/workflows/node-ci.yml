@@ -9,11 +9,8 @@ on:
         default: '14'
         type: string
       NODE_COMMANDS:
-        type: choice
-        description: select your build commads
-        options:
-        - npm run build:dev --if-present
-        - npm run build:prod --if-present
+        default: ''
+        type: string
     secrets:
       DOCKERHUB_TOKEN:
         required: true

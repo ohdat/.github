@@ -42,6 +42,7 @@ jobs:
           # deploy to Azure Web App.
           #yarn install
           #yarn build:dev
+           echo "//npm.pkg.github.com/:_authToken=${{secrets.GIT_TOKEN}}" > ~/.npmrc
            npm install
            ${{ inputs.NODE_COMMANDS }}
       - name: Set up QEMU

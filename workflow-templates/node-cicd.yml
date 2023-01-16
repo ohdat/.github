@@ -37,7 +37,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   build-production:
     needs: ci
-    uses: ohdat/.github/.github/workflows/helm-cd.yml@master
+    uses: ohdat/.github/.github/workflows/helm-node-cd.yml@master
     if: ${{ inputs.NODE_COMMANDS  == 'npm run build:prod --if-present' }}
     strategy:
       matrix:
@@ -50,6 +50,7 @@ jobs:
       namespace: website
       helm: ${{ matrix.helm }}
       set: ${{ matrix.set }}
+      distribution: xxxxxxxxxxxx
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

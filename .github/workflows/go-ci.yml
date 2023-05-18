@@ -6,7 +6,10 @@ on:
         default: ohdat123
         type: string
       GO_VERSION:
-        default: 1.7.0
+        default: 1.20.0
+        type: string
+      BASE_VERSION:
+        default: "1.1"
         type: string
     secrets:
       DOCKERHUB_TOKEN:
@@ -23,7 +26,7 @@ jobs:
   buildAndPush:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:1.1.${{ github.run_number }}
+      TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${inputs.BASE_VERSION}.${{ github.run_number }}
       LATEST_TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
     outputs:
       image: ${{ env.TAG }}

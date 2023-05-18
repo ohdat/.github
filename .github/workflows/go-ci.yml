@@ -26,7 +26,7 @@ jobs:
   buildAndPush:
     runs-on: ubuntu-latest
     env:
-      TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${inputs.BASE_VERSION}.${{ github.run_number }}
+      TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{inputs.BASE_VERSION}}.${{ github.run_number }}
       LATEST_TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
     outputs:
       image: ${{ env.TAG }}

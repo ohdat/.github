@@ -17,6 +17,10 @@ on:
       environment:
         required: true
         type: string
+      helm-repo:
+        required: true
+        type: string
+        default: 'https://ohdat.github.io/helm-charts/'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -42,7 +46,7 @@ jobs:
           version: v3.10.0
       - name: update helm repo
         run: |
-          helm repo add ohdat https://ohdat.github.io/helm-charts/
+          helm repo add ohdat ${{ inputs.helm-repo }}
           helm repo update
       # - name: echo inputs
       #   run: echo "namespace.${{ inputs.namespace }} kubename.${{ inputs.kubename }} environment.${{ inputs.environment }} ${{ inputs.kubename }}  ${{ inputs.helm }}  ${{ inputs.set }}"

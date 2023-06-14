@@ -18,7 +18,7 @@ on:
         required: true
         type: string
       helm-repo:
-        required: true
+        required: false
         type: string
         default: 'https://ohdat.github.io/helm-charts/'
     secrets:

@@ -20,7 +20,7 @@ on:
         description: "The image of docker build tag"
         value: ${{ jobs.buildAndPush.outputs.image }}
 jobs:
-  buildAndPush:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write

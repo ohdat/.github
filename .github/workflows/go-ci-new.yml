@@ -42,7 +42,7 @@ jobs:
         uses: goreleaser/goreleaser-action@v4
         with:
           args: release --clean --snapshot
-      - run: mv gomain_linux_amd64_v1 gomain_linux_amd64
+      - run: mv dist/gomain_linux_amd64_v1 dist/gomain_linux_amd64
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx

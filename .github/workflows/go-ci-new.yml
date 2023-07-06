@@ -22,6 +22,8 @@ on:
 jobs:
   buildAndPush:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.VERSION }}
       LATEST_TAG: ${{ inputs.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest

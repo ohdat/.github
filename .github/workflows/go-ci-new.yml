@@ -41,8 +41,8 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
         with:
-          version: 1.7.0
-          args: release --rm-dist
+          args: release --clean --snapshot
+      - run: mv gomain_linux_amd64_v1 gomain_linux_amd64
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx

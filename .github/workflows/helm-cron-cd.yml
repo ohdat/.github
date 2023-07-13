@@ -1,4 +1,4 @@
-name: Helm CD
+name: Helm cron CD
 on:
   workflow_call:
     inputs:
